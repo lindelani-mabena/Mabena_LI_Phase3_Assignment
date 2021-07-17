@@ -1,0 +1,26 @@
+{
+  "name": "mabena_li_phase3_assignment",
+  "version": "1.0.0",
+  "description": "a chat application developed for the phase 3 assignment by L.I Mabena for the phase 3 project developed for an apprenticeship offered by Deviare in partnership with RAIN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inno2173/Mabena_LI_Phase3_Assignment.git"
+  },
+  "author": "L.I Mabena",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inno2173/Mabena_LI_Phase3_Assignment/issues"
+  },
+  "homepage": "https://github.com/inno2173/Mabena_LI_Phase3_Assignment#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2",
+    "nodemon": "^2.0.12",
+    "socket.io": "^4.1.3"
+  }
+}

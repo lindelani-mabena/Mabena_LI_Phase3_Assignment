@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+            <h1 class="display">Start Chatting</h1>
+            <br />
+            <input type="text" id="txtName" class="form-control" placeholder="Enter Name">
+            <br />
+            <textarea name="txtMessage" id="txtMessage" cols="10" rows="10" class="form-control"
+                placeholder="Enter message"></textarea>
+            <br />
+            <button type="button" value="send" class="btn btn-success" id="send">send</button>
+        
+        <br />
+        <br />
+        <div id="messages"></div>
+    </div>
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+
+
+        
+        var socket = io();
+        var chatRoom ;
+
+        socket.on('chat', addChat);
+
+         $(document).ready(function () {
+            getChats();
+        }) 
+ 
+        socket.on('message', (message)=>
+        {
+            console.log(message)
+        });
+
+        socket.on('login', (login)=>
+        {
+            chatRoom = login;
+           
+        });
+
+        $(() => {
+            $('#send').click(() => {
+                var chatMessage = {
+                    name: $('#txtName').val(),
+                    chat: $('#txtMessage').val(),
+                    chatRoom: chatRoom 
+                };
+                postChat(chatMessage)
+            })
+        })
+
+        function postChat(chat) {
+            $.post('http://localhost:3000/chats', chat)
+            //location.reload();
+        }
+        
+        function getChats() {
+            console.log("chat room"+ chatRoom);
+            $.get('/chats/'+ chatRoom, (chats) => {
+                chats.forEach(addChat);
+            })
+        }
+        function addChat(chatObj) {
+            $('#messages').append(`<h5>${chatObj.name}</h5><p>${chatObj.chat}`);
+        }
+    </script>
+</body>
+
+</html>
