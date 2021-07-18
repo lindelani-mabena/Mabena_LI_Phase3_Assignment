@@ -27,36 +27,30 @@
                 placeholder="Enter message"></textarea>
             <br />
             <button type="button" value="send" class="btn btn-success" id="send">send</button>
-        
+
+
         <br />
         <br />
         <div id="messages"></div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src='/socket.io/socket.io.js'></script>
     <script>
-
-
-        
         var socket = io();
         var chatRoom ;
 
         socket.on('chat', addChat);
-
-         $(document).ready(function () {
-            getChats();
-        }) 
+        getChats();
  
         socket.on('message', (message)=>
         {
-            console.log(message)
+            console.log(message);
         });
 
         socket.on('login', (login)=>
         {
-            chatRoom = login;
-           
+        
         });
-
         $(() => {
             $('#send').click(() => {
                 var chatMessage = {
@@ -64,24 +58,32 @@
                     chat: $('#txtMessage').val(),
                     chatRoom: chatRoom 
                 };
-                postChat(chatMessage)
+                postChat(chatMessage);
             })
         })
 
         function postChat(chat) {
-            $.post('http://localhost:3000/chats', chat)
-            //location.reload();
+            $.post('http://localhost:3000/chats', chat);
+           // location.reload();
         }
-        
+
         function getChats() {
-            console.log("chat room"+ chatRoom);
+            var c = localStorage.getItem("chatRoom-list");
+            console.log('chat room test '+ c) 
+           
+            chatRoom = c;
+            console.log("chat roomer"+ chatRoom);
             $.get('/chats/'+ chatRoom, (chats) => {
+               
+               
                 chats.forEach(addChat);
-            })
+            });
+            
         }
         function addChat(chatObj) {
             $('#messages').append(`<h5>${chatObj.name}</h5><p>${chatObj.chat}`);
         }
+
     </script>
 </body>
 
