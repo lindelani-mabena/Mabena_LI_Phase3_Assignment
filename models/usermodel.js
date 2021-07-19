@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 var userSchema = mongoose.Schema({
     username:{
         type: String,
@@ -10,12 +9,6 @@ var userSchema = mongoose.Schema({
     {
         type: String,
         required:true
-    },
-
-    chatRoom :
-    {   type: String,
-        required:true
-
     }
 });
 

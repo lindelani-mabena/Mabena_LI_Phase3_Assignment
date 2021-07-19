@@ -1,76 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-    crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-    crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-    crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="jumbotron">
-            <h1 class="display-4">Register</h1>
-            <br />
-            <select name="sltFaculties" class="form-control" id="sltFaculties">
-                <option >Select ChatRoom</option>
-                <option value="Science">Faculty of Science</option>
-                <option value="BusinessAndEconomics">Faculty of Business</option>
-                <option value="Engineering">Faculty of Engineering</option>
-                <option value="Humanities">Faculty of Humanities</option>
-                <option value="Law">Faculty of Law</option>
-              </select>
-              <br />
-                <input type="text" id="txtUsername" class="form-control" placeholder="Enter Username">
-                 <br />
-            <input type="password" id="txtPassword" class="form-control" placeholder="Enter Password">
-            <br />
-            
-            <input type="password" id="txtConfirmPassword" class="form-control" placeholder="Enter Confirm Password">
-            <br />
-            <button type="button" value="register" class="btn btn-success" id="btnRegister">Register </button>
-        </div>
+    <div class="container border bg-light">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav">
+                <li class="nav-item"><a href="/index.html" class="nav-link active" aria-current="page">Login</a></li>
+                <li class="nav-item"><a href="/register.html" class="nav-link">Register</a></li>
+                <li class="nav-item"><a href="/chat.html" class="nav-link">Chats</a></li>
+            </ul>
+        </header>
+    </div>
+    <div class="container border">
+
+        <h1 class="display">Register</h1>
         <br />
+        <input type="text" id="txtUsername" class="form-control" placeholder="Enter Username">
         <br />
-       
+        <input type="password" id="txtPassword" class="form-control" placeholder="Enter Password">
+        <br />
+
+        <input type="password" id="txtConfirmPassword" class="form-control" placeholder="Enter Confirm Password">
+        <p>Already have an account sign in <a href="/index.html">here</a></p>
+
+        <button type="button" value="register" class="btn btn-primary" id="btnRegister">Register </button>
+        <br>
+        <br>
     </div>
 
-<script>
-    $(() => {
-        var chatRoom;
-        $('#btnRegister').click(() => {
+    <footer class="container border footer cuemt-auto py-3 bg-light">
+        <div class="justify-content-center">
+            <p align="center">&copy InnoCodez 2021</p>
+        </div>
+    </footer>
 
-            username = $('#txtUsername').val();
-            password = $('#txtPassword').val();
-            confirmPassword = $('#txtConfirmPassword').val();
-            chatRoom= $("select#sltFaculties").val()
-            if (password == confirmPassword) {
-                var newUser = {
-                    username: username,
-                    password: password,
-                    chatRoom: chatRoom
-                };
-                signUp(newUser);
-            }
-            else {
-            }
-            /* <div id="messages"><p>password is not equal to confirm password</p></div> */
-        });
-        
-    })
-    function signUp(User)
-            {
-                $.post('http://localhost:3000/register', User)
-            }
+    <script>
+        $(() => {
+            var chatRoom;
+            $('#btnRegister').click(() => {
 
-</script>
+                username = $('#txtUsername').val();
+                password = $('#txtPassword').val();
+                confirmPassword = $('#txtConfirmPassword').val();
+                if (password == confirmPassword) {
+                    var newUser = {
+                        username: username,
+                        password: password,
+                    };
+                    signUp(newUser);
+                }
+                else {
+                }
+                /* <div id="messages"><p>password is not equal to confirm password</p></div> */
+            });
+
+        })
+        function signUp(User) {
+            $.post('http://localhost:3000/register', User).then((data) => {
+                const { Registered } = data;
+                console.log(Registered);
+                if (Registered == "Yes") {
+                    console.log("registered");
+                   window.location = "/index.html"
+                }
+                
+            });
+        }
+
+    </script>
 
 </body>
 
-</html> 
+</html>

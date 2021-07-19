@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var chatSchema = mongoose.Schema(
     {
 
-        name: {
+        title: {
             type: String,
             required: true
         },
@@ -11,11 +11,16 @@ var chatSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        chatRoom: {
-            type: String,
-            required: true
+        createdBy:
+        {
+            type:String,
+            required:true
         },
+        dateCreated:
+        {
+            type:Date,
+            default: Date.now
+        }
     }
 )
-
 module.exports = mongoose.model('Chat', chatSchema);

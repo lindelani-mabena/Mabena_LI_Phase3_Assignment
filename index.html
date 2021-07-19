@@ -13,31 +13,42 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="jumbotron">
-            <h1 class="display-4">Login</h1>
+  <div class="container border bg-light">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav">
+        <li class="nav-item"><a href="/index.html" class="nav-link active" aria-current="page">Login</a></li>
+        <li class="nav-item"><a href="/register.html" class="nav-link">Register</a></li>
+        <li class="nav-item"><a href="/chat.html" class="nav-link">Chats</a></li>
+      </ul>
+    </header>
+  </div>
+    <div class="container border">
+      <form>
+            <h1 class="display">Login</h1>
             <br />
             <input type="text" id="txtUsername" class="form-control" placeholder="Enter Username">
             <br />
             <input type="password" id="txtPassword" class="form-control" placeholder="Enter Password">
-            <br />
-            <button type="button" value="login" class="btn btn-success" id="btnLogin">Login</button>
-
-        </div>
+            <p>Don't have an account sign up <a href="/register.html">here</a></p>
+            <button type="button" value="login" class="btn btn-primary" id="btnLogin">Login</button>
         <br />
         <br />
-
+      </form>
     </div>
-    <script src='/socket.io/socket.io.js'></script>
-    <script>
-        var socket = io();
-        socket.on('message', message => {
-            console.log(message)
-        });
 
+    <footer class="container footer  cuemt-auto py-3 bg-light">
+        <div class="justify-content-center">
+          <p align="center">&copy InnoCodez 2021</p>
+        </div>
+      </footer>
+
+    <script src='/socket.io/socket.io.js'></script>
+   <script>
+        var socket = io();  
         $(() => {
             $('#btnLogin').click(() => {
                 username = $('#txtUsername').val();
@@ -46,28 +57,19 @@
                     username: username,
                     password: password
                 };
+               
                 Login(newUser);
-                /* <div id="messages"><p>password is not equal to confirm password</p></div> */
             });
         });
         function Login(User) {
-            $.post('http://localhost:3000/login/', User).then((data) => {
-                const { LoggedIn , chatroom} = data;
+          $.post('http://localhost:3000/login/', User).then((data) => {
+                const { LoggedIn } = data;
                 console.log(LoggedIn);
-                console.log('chat room'+ chatroom);
                 if (LoggedIn == "Yes") {
                     console.log("logged in");
-                   window.location = "chat.html"
+                   window.location = "/chat.html"
                 }
-                if (localStorage) {
-                    localStorage.setItem("chatRoom-list",chatroom);
-                    var c = localStorage.getItem("chatRoom-list");
-                    console.log('chat room test '+ c) 
-                    alert('chat room list query' + storedArticles);
-                } else {
-                    alert("Your browser does not support localStorage.");
-                    console.log('chat room test not working ' ) ;
-                }
+                
             });
         }
     </script>

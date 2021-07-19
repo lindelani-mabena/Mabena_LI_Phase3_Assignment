@@ -13,50 +13,76 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-
-    <div class="container">
-            <h1 class="display">Start Chatting</h1>
-            <br />
-            <input type="text" id="txtName" class="form-control" placeholder="Enter Name">
-            <br />
-            <textarea name="txtMessage" id="txtMessage" cols="10" rows="10" class="form-control"
-                placeholder="Enter message"></textarea>
-            <br />
-            <button type="button" value="send" class="btn btn-success" id="send">send</button>
-
-
-        <br />
-        <br />
-        <div id="messages"></div>
+    <div class="container border bg-light">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav">
+                <li class="nav-item"><a href="/index.html" class="nav-link active" aria-current="page">Login</a></li>
+                <li class="nav-item"><a href="/register.html" class="nav-link">Register</a></li>
+                <li class="nav-item"><a href="/chat.html" class="nav-link">Chats</a></li>
+            </ul>
+        </header>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <div class="container border">
+        <h1 class="display">Start Chatting</h1>
+        <br />
+
+        <div class="row">
+            <div class="col"> <input type="text" id="txtTitle" class="form-control" placeholder="Enter Title">
+                <br />
+                <textarea name="txtMessage" id="txtMessage" cols="10" rows="10" class="form-control"
+                    placeholder="Enter message"></textarea>
+                <br />
+                <button type="button" value="send" class="btn btn-primary" id="send">send</button>
+            </div>
+            <div class="col border">
+                <div>
+                    <h3 class="display">Chats:</h3>
+                    <br />
+                    <div id="messages" class="overflow-auto col"></div>
+                   
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+
+    </div>
+
+    <footer class="container border footer cuemt-auto py-3 bg-light">
+        <div class="justify-content-center">
+            <p align="center">&copy InnoCodez 2021</p>
+        </div>
+    </footer>
     <script src='/socket.io/socket.io.js'></script>
     <script>
         var socket = io();
-        var chatRoom ;
+        var Username;
 
         socket.on('chat', addChat);
         getChats();
- 
-        socket.on('message', (message)=>
-        {
+
+        socket.on('Username', username=>{
+            Username = username;
+          console.log(username);
+        });
+        socket.on('message', (message) => {
             console.log(message);
         });
-
-        socket.on('login', (login)=>
-        {
-        
+        socket.on("broadcast", (data) => {
+            console.log(data);
         });
         $(() => {
             $('#send').click(() => {
                 var chatMessage = {
-                    name: $('#txtName').val(),
+                    title: $('#txtTitle').val(),
                     chat: $('#txtMessage').val(),
-                    chatRoom: chatRoom 
+                    createdBy: Username
                 };
                 postChat(chatMessage);
             })
@@ -64,24 +90,17 @@
 
         function postChat(chat) {
             $.post('http://localhost:3000/chats', chat);
-           // location.reload();
         }
 
         function getChats() {
-            var c = localStorage.getItem("chatRoom-list");
-            console.log('chat room test '+ c) 
-           
-            chatRoom = c;
-            console.log("chat roomer"+ chatRoom);
-            $.get('/chats/'+ chatRoom, (chats) => {
-               
-               
+            $.get('/chats/', (chats) => {
+
                 chats.forEach(addChat);
             });
-            
+
         }
         function addChat(chatObj) {
-            $('#messages').append(`<h5>${chatObj.name}</h5><p>${chatObj.chat}`);
+            $('#messages').append(`<h5>${chatObj.title}</h5><p>${chatObj.chat}</p><p> Created by user: ${chatObj.createdBy} <p>Date created: ${chatObj.dateCreated}</p><hr />`);
         }
 
     </script>

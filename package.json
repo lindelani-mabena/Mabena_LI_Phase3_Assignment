@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/inno2173/Mabena_LI_Phase3_Assignment#readme",
   "dependencies": {
+    "bootstrap": "^5.0.2",
     "express": "^4.17.1",
     "mongoose": "^5.13.2",
     "node-localstorage": "^2.2.1",
